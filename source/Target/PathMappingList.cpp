@@ -169,6 +169,7 @@ bool PathMappingList::RemapPath(llvm::StringRef path,
         continue;
       // We need to figure out if the "path" argument is relative. If it is,
       // then we should remap, else skip this entry.
+      // 我们需要弄清楚“path”参数是否是相对的。如果是，那么我们应该重新映射，否则跳过这一项。
       if (path_is_relative == eLazyBoolCalculate) {
         path_is_relative =
             FileSpec(path).IsRelative() ? eLazyBoolYes : eLazyBoolNo;
@@ -176,6 +177,9 @@ bool PathMappingList::RemapPath(llvm::StringRef path,
       if (!path_is_relative)
         continue;
     }
+    // old: user/111/bin.m
+    // 规则 user -> xyz
+    // new: xyz/111/bin.m （Prefix匹配）
     FileSpec remapped(it.second.GetStringRef());
     remapped.AppendPathComponent(path);
     new_path = remapped.GetPath();
